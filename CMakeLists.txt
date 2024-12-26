@@ -3,10 +3,26 @@ cmake_minimum_required(VERSION 3.22)
 set(PROJECT_NAME "Asteroids3D")
 set(PROJECT_VERSION "1.0.0")
 
+# Collect source files
+file(GLOB_RECURSE PROJECT_SOURCES
+    src/*.cpp
+    src/*.hpp
+    src/*.c
+    src/*.h
+    src/*.fs
+    src/*.vs
+)
+
+# Copy assets
+file(COPY ${CMAKE_SOURCE_DIR}/assets/ DESTINATION ${CMAKE_BINARY_DIR}/assets)
+
 # GLFW VARS
 set(GLFW_ROOT "${CMAKE_SOURCE_DIR}/_deps/glfw-3.4") 
 set(GLFW_INCLUDE_DIR "${GLFW_ROOT}/include")
 set(GLFW_LIB_DIR "${GLFW_ROOT}/lib-arm64") 
+
+# GLM 
+#set(GLM_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/include/glm")
 
 # GLAD SOURCE
 set(GLAD_SOURCE "src/glad.c")
@@ -30,7 +46,7 @@ include_directories(include)
 # Find GLFW library
 find_library(GLFW_LIB_LOCATION glfw3 HINTS ${GLFW_LIB_DIR})
 
-add_executable(${PROJECT_NAME} src/main.cpp ${GLAD_SOURCE})
+add_executable(${PROJECT_NAME} ${PROJECT_SOURCES} ${GLAD_SOURCE})
 
 # Link GLFW
 target_link_libraries(${PROJECT_NAME} PRIVATE ${GLFW_LIB_LOCATION})
