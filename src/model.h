@@ -121,10 +121,6 @@ private:
             // texture coordinates
             if(mesh->mTextureCoords[0]) // does the mesh contain texture coordinates?
             {
-                std::cout << "Texture coords for vertex " << i << ": (" 
-                          << mesh->mTextureCoords[0][i].x << ", " 
-                          << mesh->mTextureCoords[0][i].y << ")" << std::endl;
-                
                 vertex.TexCoords = glm::vec2(
                     mesh->mTextureCoords[0][i].x,
                     1.0f - mesh->mTextureCoords[0][i].y  // Flip Y coordinate
@@ -164,6 +160,20 @@ private:
         texture.type = "texture_diffuse";
         texture.path = texture_path;
         textures.push_back(texture);
+
+        aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];
+        std::cout << "======= Material Information ========" << std::endl;
+        std::cout << "Scene material size: " << scene->mNumMaterials << std::endl;
+        std::cout << "Material index: " << mesh->mMaterialIndex << std::endl;
+        for (int type = aiTextureType_NONE; type <= aiTextureType_UNKNOWN; type++) {
+            std::cout << "Material texture count for type " << type << ": " 
+                      << material->GetTextureCount((aiTextureType)type) << std::endl;
+        }
+
+
+        //aiString texturePath;
+        //material->GetTexture(aiTextureType_DIFFUSE, 0, &texturePath);
+        //std::cout << "Tex path: " << texturePath.C_Str() << std::endl;
 
         /*// process materials
         aiMaterial* material = scene->mMaterials[mesh->mMaterialIndex];    

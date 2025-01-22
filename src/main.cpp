@@ -62,7 +62,7 @@ void mouse_callback(GLFWwindow *window, double xposIn, double yposIn)
     lastX = xpos;
     lastY = ypos;
 
-    //camera.ProcessMouseMovement(xoffset, yoffset);
+    camera.ProcessMouseMovement(xoffset, yoffset);
 }
 
 unsigned int indices[] = {
@@ -112,7 +112,12 @@ int main()
 
     Shader ourShader("../src/shaders/model.vs", "../src/shaders/model.fs");
     std::string exe_path = std::filesystem::current_path().string();
-    Model ourModel(exe_path + "/../assets/objects/bread.fbx", false, exe_path + "/../assets/objects/bread.jpeg");
+    //Model ourModel(exe_path + "/../assets/objects/bread.fbx", false, exe_path + "/../assets/objects/bread.jpeg");
+    Model ourModel(
+        exe_path + "/../assets/objects/knight/knight.fbx", 
+        false, 
+        exe_path + "/../assets/objects/knight/knightlowres.png"
+    );
 
     // Render loop
     while (!glfwWindowShouldClose(window))
@@ -144,7 +149,7 @@ int main()
         // render the loaded model
         glm::mat4 model = glm::mat4(1.0f);
         model = glm::translate(model, glm::vec3(0.0f, 0.0f, -0.5f)); // translate it down so it's at the center of the scene
-        model = glm::rotate(model, glm::radians(-45.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         model = glm::rotate(model, glm::radians(-35.0f) * (float)glfwGetTime(), glm::vec3(0.0f, 0.0f, 1.0f));
         model = glm::scale(model, glm::vec3(1.0f, 1.0f, 1.0f));	// it's a bit too big for our scene, so scale it down
         ourShader.setMat4("model", model);
